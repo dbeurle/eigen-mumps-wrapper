@@ -39,10 +39,10 @@ namespace Eigen
  *
  * \sa TutorialSparseDirectSolvers
  */
-template <typename _MatrixType>
+template <typename MatrixT>
 class MUMPSLU;
 
-template <typename _MatrixType, int Options>
+template <typename MatrixT, int Options>
 class MUMPSLDLT;
 
 namespace internal
@@ -50,22 +50,22 @@ namespace internal
 template <class Mumps>
 struct mumps_traits;
 
-template <typename _MatrixType>
-struct mumps_traits<MUMPSLU<_MatrixType>>
+template <typename MatrixT>
+struct mumps_traits<MUMPSLU<MatrixT>>
 {
-    typedef _MatrixType MatrixType;
-    typedef typename _MatrixType::Scalar Scalar;
-    typedef typename _MatrixType::RealScalar RealScalar;
-    typedef typename _MatrixType::StorageIndex StorageIndex;
+    typedef MatrixT MatrixType;
+    typedef typename MatrixT::Scalar Scalar;
+    typedef typename MatrixT::RealScalar RealScalar;
+    typedef typename MatrixT::StorageIndex StorageIndex;
 };
 
-template <typename _MatrixType, int Options>
-struct mumps_traits<MUMPSLDLT<_MatrixType, Options>>
+template <typename MatrixT, int Options>
+struct mumps_traits<MUMPSLDLT<MatrixT, Options>>
 {
-    typedef _MatrixType MatrixType;
-    typedef typename _MatrixType::Scalar Scalar;
-    typedef typename _MatrixType::RealScalar RealScalar;
-    typedef typename _MatrixType::StorageIndex StorageIndex;
+    typedef MatrixT MatrixType;
+    typedef typename MatrixT::Scalar Scalar;
+    typedef typename MatrixT::RealScalar RealScalar;
+    typedef typename MatrixT::StorageIndex StorageIndex;
 };
 
 template <typename T>
@@ -137,8 +137,8 @@ protected:
 public:
     using Base::_solve_impl;
 
-    typedef typename internal::mumps_traits<Derived>::MatrixType _MatrixType;
-    typedef _MatrixType MatrixType;
+    typedef typename internal::mumps_traits<Derived>::MatrixType MatrixT;
+    typedef MatrixT MatrixType;
     typedef typename MatrixType::Scalar Scalar;
     typedef typename MatrixType::RealScalar RealScalar;
     typedef typename MatrixType::StorageIndex StorageIndex;
@@ -395,17 +395,17 @@ bool MumpsBase<Base>::_solve_impl(const MatrixBase<Rhs>& b, MatrixBase<Dest>& x)
  * This interface can symmetrize the input matrix otherwise.
  * The vectors or matrices X and B can be either dense or sparse.
  *
- * \tparam _MatrixType the type of the sparse matrix A, it must be a SparseMatrix<>
+ * \tparam MatrixT the type of the sparse matrix A, it must be a SparseMatrix<>
  *
  * \implsparsesolverconcept
  *
  * \sa \ref TutorialSparseSolverConcept, class SparseLU
  */
-template <typename _MatrixType>
-class MUMPSLU : public MumpsBase<MUMPSLU<_MatrixType>>
+template <typename MatrixT>
+class MUMPSLU : public MumpsBase<MUMPSLU<MatrixT>>
 {
 public:
-    typedef _MatrixType MatrixType;
+    typedef MatrixT MatrixType;
     typedef MumpsBase<MUMPSLU<MatrixType>> Base;
     typedef typename Base::ColSpMatrix ColSpMatrix;
     typedef typename MatrixType::StorageIndex StorageIndex;
@@ -502,16 +502,16 @@ protected:
  *
  * \sa \ref TutorialSparseSolverConcept, class SimplicialLDLT
  */
-template <typename _MatrixType, int _UpLo>
-class MUMPSLDLT : public MumpsBase<MUMPSLDLT<_MatrixType, _UpLo>>
+template <typename MatrixT, int _UpLoT>
+class MUMPSLDLT : public MumpsBase<MUMPSLDLT<MatrixT, _UpLoT>>
 {
 public:
-    typedef _MatrixType MatrixType;
-    typedef MumpsBase<MUMPSLDLT<MatrixType, _UpLo>> Base;
+    typedef MatrixT MatrixType;
+    typedef MumpsBase<MUMPSLDLT<MatrixType, _UpLoT>> Base;
     typedef typename Base::ColSpMatrix ColSpMatrix;
 
 public:
-    enum { UpLo = _UpLo };
+    enum { UpLo = _UpLoT };
     MUMPSLDLT() : Base() { init(true); }
 
     explicit MUMPSLDLT(const MatrixType& matrix) : Base()
