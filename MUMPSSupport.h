@@ -10,9 +10,16 @@
 #ifndef EIGEN_MUMPSSUPPORT_H
 #define EIGEN_MUMPSSUPPORT_H
 
-#include <complex>
+#include "Eigen/Sparse"
 
+#include <MUMPS/dmumps_c.h>
+#include <MUMPS/smumps_c.h>
+#include <MUMPS/cmumps_c.h>
+#include <MUMPS/zmumps_c.h>
+
+#include <complex>
 #include <stdexcept>
+#include <iostream>
 
 namespace Eigen
 {
