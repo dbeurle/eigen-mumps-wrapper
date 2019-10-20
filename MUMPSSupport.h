@@ -494,7 +494,7 @@ protected:
  * WARNING Selfadjoint complex matrices are not supported in the current version
  * of MUMPS.  The vectors or matrices X and B can be either dense or sparse
  *
- * \tparam MatrixType the type of the sparse matrix A, it must be a SparseMatrix<>
+ * \tparam MatrixT the type of the sparse matrix A, it must be a SparseMatrix<>
  * \tparam UpLo The part of the matrix to use : Lower or Upper. The default is
  * Lower as required by MUMPS
  *
@@ -502,16 +502,16 @@ protected:
  *
  * \sa \ref TutorialSparseSolverConcept, class SimplicialLDLT
  */
-template <typename MatrixT, int _UpLoT>
-class MUMPSLDLT : public MumpsBase<MUMPSLDLT<MatrixT, _UpLoT>>
+template <typename MatrixT, int UpLoT>
+class MUMPSLDLT : public MumpsBase<MUMPSLDLT<MatrixT, UpLoT>>
 {
 public:
     typedef MatrixT MatrixType;
-    typedef MumpsBase<MUMPSLDLT<MatrixType, _UpLoT>> Base;
+    typedef MumpsBase<MUMPSLDLT<MatrixType, UpLoT>> Base;
     typedef typename Base::ColSpMatrix ColSpMatrix;
 
 public:
-    enum { UpLo = _UpLoT };
+    enum { UpLo = UpLoT };
     MUMPSLDLT() : Base() { init(true); }
 
     explicit MUMPSLDLT(const MatrixType& matrix) : Base()
